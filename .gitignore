@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Memória de sessão (local, não versionar) ###
+AGENTS.md

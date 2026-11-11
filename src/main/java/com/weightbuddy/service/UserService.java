@@ -1,15 +1,15 @@
 
 package com.weightbuddy.service;
 
-import com.weightbuddy.dto.UserRequest;
-import com.weightbuddy.dto.UserResponse;
-import com.weightbuddy.model.User;
-import com.weightbuddy.repository.UserRepository;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.weightbuddy.dto.UserRequest;
+import com.weightbuddy.dto.UserResponse;
+import com.weightbuddy.model.User;
+import com.weightbuddy.repository.UserRepository;
 
 // Indica ao Spring que esta classe contém regras de negócio
 // relacionadas às operações de usuários.
