@@ -1,0 +1,45 @@
+# docker-compose.yml - sobe só o PostgreSQL em container
+# Uso: docker compose up -d | docker compose down | docker compose ps
+# Credenciais vem do .env na raiz (compose lê automaticamente)
+
+services:
+  postgres:
+    # alpine = imagem mínima (menor, mais leve). 16 = versão do Postgres.
+    image: postgres:16-alpine
+
+    # Nome fixo do container (facilita docker logs/inspect neste ambiente local)
+    container_name: weightbuddy_postgres
+
+    # Volta a subir sozinho se o Docker/PC reiniciar (padrão em serviço local)
+    restart: unless-stopped
+
+    # Variáveis que o Postgres usa na PRIMEIRA subida pra criar o banco/usuário.
+    # ${VAR} = lido do .env; sem valor no .env, o container falha na hora.
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # PGDATA em subpasta: evita conflito com lost+found de alguns filesystems
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+    # Expõe o banco na sua máquina (localhost:5432) pro DBeaver e pra app.
+    # Formato: "porta_da_máquina:porta_do_container"
+    ports:
+      - "5432:5432"
+
+    # Volume nomeado: os dados ficam FORA do container e sobrevivem a
+    # docker compose down / rm / rebuild da imagem.
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    # Espera o Postgres aceitar conexões antes de marcar "healthy".
+    # Sem isso, app/CI podem tentar conectar em banco que ainda subia.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# Declara o volume usado acima. Driver local é o default do Docker.
+volumes:
+  postgres_data:

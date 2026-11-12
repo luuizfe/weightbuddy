@@ -44,17 +44,11 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!-- Banco H2 para desenvolvimento e testes -->
+        <!-- Banco PostgreSQL -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
-        </dependency>
-
-        <!-- Console web do H2 para visualizar o banco -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-h2console</artifactId>
         </dependency>
 
         <!-- Criptografia de senhas com BCrypt -->
@@ -94,6 +88,29 @@
     <build>
         <plugins>
 
+            <!-- Bloqueia o build se a JDK for menor que 21 (mensagem clara no lugar de erro confuso) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>enforce-java</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>[21,)</version>
+                                    <message>Este projeto precisa de JDK 21 ou superior. Instale em https://adoptium.net e configure JAVA_HOME.</message>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Processa as anotações do Lombok (getters, setters, etc.) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -104,6 +121,7 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
+
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
