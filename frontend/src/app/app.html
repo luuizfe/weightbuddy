@@ -1,0 +1,48 @@
+<div class="estrutura">
+  @if (menuAberto()) {
+    <div class="fundo-escuro" (click)="fecharMenu()"></div>
+  }
+
+  <aside class="lateral" [class.aberto]="menuAberto()">
+    <div class="marca">
+      <span class="marca-simbolo">W</span>
+      <span>WeightBuddy</span>
+    </div>
+
+    <nav class="navegacao">
+      @for (item of navegacao; track item.caminho) {
+        <a [routerLink]="['/' + item.caminho]" routerLinkActive="ativo" (click)="fecharMenu()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path [attr.d]="item.icone"></path>
+          </svg>
+          <span>{{ item.rotulo }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="lateral-rodape">
+      <span class="etiqueta">Ambiente de testes</span>
+    </div>
+  </aside>
+
+  <div class="principal">
+    <header class="barra-superior">
+      <div class="linha">
+        <button class="botao botao-fantasma botao-pequeno botao-menu" (click)="menuAberto.set(!menuAberto())" aria-label="Abrir menu">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+        </button>
+        <span class="pequeno fraco">Acompanhamento de treinos</span>
+      </div>
+      <div class="linha">
+        <a class="botao botao-fantasma botao-pequeno" [routerLink]="['/cadastro']">Novo usuário</a>
+        <div class="avatar" title="Railan">RF</div>
+      </div>
+    </header>
+
+    <main>
+      <router-outlet />
+    </main>
+  </div>
+</div>

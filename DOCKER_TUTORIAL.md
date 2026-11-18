@@ -56,7 +56,7 @@ Ou dê **Run** no `WeightbuddyApplication` na IDE. Pra parar: `Ctrl+C`.
 Testar a API:
 
 ```powershell
-curl -X POST http://localhost:8080/api/users -H "Content-Type: application/json" -d '{\"nome\":\"Teste\",\"usuario\":\"teste\",\"senha\":\"senha1234\",\"email\":\"teste@email.com\"}'
+curl -X POST http://localhost:8080/api/users -H "Content-Type: application/json" -d '{\"nome\":\"Teste\",\"usuario\":\"teste\",\"senha\":\"SUA_SENHA_AQUI\",\"email\":\"teste@email.com\"}'
 ```
 
 ## Comandos úteis
